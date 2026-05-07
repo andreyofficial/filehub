@@ -6,7 +6,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "upload": "bash scripts/upload.sh"
   },
   "dependencies": {
     "archiver": "^7.0.1",

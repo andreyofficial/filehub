@@ -1,0 +1,29 @@
+EASIEST WAY TO UPLOAD FILEHUB
+============================
+
+1) One command (after GitHub is set up once):
+
+   npm run upload
+
+   That commits any changes and runs: git push origin main
+
+2) First time only — connect GitHub:
+
+   gh auth login
+   gh repo create filehub --public --source=. --remote=origin --push
+
+   (Change "filehub" if that name is taken.)
+
+3) Host it free on Render:
+
+   https://dashboard.render.com
+   New → Web Service → pick this GitHub repo
+   Render reads render.yaml OR set Start Command: npm start
+   Add environment variables from .env.example
+
+4) Optional — Docker instead of Node on Render:
+
+   New Web Service → Runtime: Docker (uses Dockerfile in this folder)
+
+Your site opens at: https://YOUR-SERVICE.onrender.com/
+(PayPal PUBLIC_BASE_URL must match that URL.)

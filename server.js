@@ -179,6 +179,10 @@ ensureDirs();
 const app = express();
 app.use(express.json({ limit: "1mb" }));
 
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "website.html"));
+});
+
 app.get("/api/config", (_req, res) => {
   res.json({
     payments: "paypal",
