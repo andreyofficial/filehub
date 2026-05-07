@@ -1,0 +1,15 @@
+# Deploy on https://render.com (free Web Service).
+# 1. Push this repo to GitHub.
+# 2. Render → New → Web Service → connect repo.
+# 3. Render auto-detects this file, or set: Build = npm install, Start = npm start
+# 4. In Render → Environment, add: JWT_SECRET, PAYPAL_*, ADMIN_EMAIL, PUBLIC_BASE_URL (your https://… URL)
+# Note: Free tier disk is ephemeral — uploads reset when the service restarts. Add a Render disk or S3 for persistence.
+
+services:
+  - type: web
+    name: filehub
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/listings

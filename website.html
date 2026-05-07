@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FileHub — $0–$5 files, PayPal checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-deep: #0b0213;
+      --bg-body: #0d0618;
+      --purple-mid: #3b1f5c;
+      --card: #1a0f2e;
+      --card-border: rgba(255, 255, 255, 0.06);
+      --text: #ffffff;
+      --muted: #b8a9c9;
+      --muted-dim: #7d6f92;
+      --star: #ffd700;
+      --green: #00c853;
+      --green-hover: #00e676;
+      --pink: #ec4899;
+      --violet: #a855f7;
+      --radius-lg: 26px;
+      --radius-md: 16px;
+      --radius-btn: 14px;
+      --header-h: 4.25rem;
+      --font: "Inter", system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      background: var(--bg-body);
+      background-image:
+        radial-gradient(ellipse 90% 55% at 50% -15%, rgba(124, 58, 237, 0.45), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(236, 72, 153, 0.12), transparent 50%),
+        linear-gradient(180deg, #15081f 0%, var(--bg-body) 38%, #0a0410 100%);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      min-height: var(--header-h);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.5rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(11, 2, 19, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 20px rgba(236, 72, 153, 0.35);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-upload {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.15rem;
+      border-radius: 999px;
+      border: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      background: linear-gradient(90deg, #f472b6, #c084fc, #a855f7);
+      box-shadow: 0 6px 28px rgba(168, 85, 247, 0.35);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    .btn-upload:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 36px rgba(236, 72, 153, 0.4);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-logout {
+      padding: 0.45rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-logout:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-upload svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    main.shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 3.5rem;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+
+    .section-title .star {
+      color: var(--star);
+      font-size: 1.1rem;
+    }
+
+    .section-title .icon-people {
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--muted);
+    }
+
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    @media (min-width: 768px) {
+      .featured-card {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        min-height: 280px;
+      }
+    }
+
+    .featured-visual {
+      position: relative;
+      min-height: 200px;
+    }
+
+    @media (min-width: 768px) {
+      .featured-visual {
+        min-height: 100%;
+      }
+    }
+
+    .featured-thumb {
+      position: absolute;
+      inset: 1rem;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: linear-gradient(145deg, #2e1064, #581c87 40%, #0f172a);
+      display: grid;
+      place-items: center;
+    }
+
+    .featured-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-thumb .thumb-svg {
+      width: 72%;
+      max-width: 220px;
+      opacity: 0.9;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 1.35rem;
+      right: 1.35rem;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      background: var(--star);
+      color: #1a0a00;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .featured-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .featured-body {
+      padding: 1.5rem 1.5rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .featured-body {
+        padding: 1.75rem 1.75rem 1.5rem 0.5rem;
+        justify-content: center;
+      }
+    }
+
+    .featured-body h3 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .byline {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .desc {
+      margin: 0.35rem 0 0;
+      font-size: 0.88rem;
+      color: #d4c8e8;
+      line-height: 1.55;
+      max-width: 36rem;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 0.65rem;
+      font-size: 0.85rem;
+      color: var(--star);
+      font-weight: 500;
+    }
+
+    .stats span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .stats svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.95;
+    }
+
+    .featured-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: auto;
+      padding-top: 1.25rem;
+    }
+
+    .price-big {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-buy {
+      flex-shrink: 0;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-btn);
+      border: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      background: var(--green);
+      box-shadow: 0 6px 24px rgba(0, 200, 83, 0.35);
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-buy:hover:not(:disabled) {
+      background: var(--green-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-buy:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .link-quiet {
+      background: none;
+      border: none;
+      color: var(--muted-dim);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .link-quiet:hover {
+      color: var(--muted);
+    }
+
+    .section-community {
+      margin-top: 2.5rem;
+    }
+
+    .community-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .community-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 0.85rem;
+      align-items: start;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .cc-thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #4c1d95, #7c3aed);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cc-thumb svg {
+      width: 36px;
+      height: 36px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .cc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .cc-title {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+
+    .tag-price {
+      background: rgba(255, 215, 0, 0.15);
+      color: var(--star);
+    }
+
+    .cc-meta {
+      font-size: 0.75rem;
+      color: var(--muted-dim);
+      margin-top: 0.25rem;
+    }
+
+    .cc-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.65rem;
+    }
+
+    .cc-actions .btn-buy {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 2.5rem 1.25rem;
+      color: var(--muted);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      background: rgba(26, 15, 46, 0.5);
+      font-size: 0.95rem;
+    }
+
+    .section-upload {
+      margin-top: 2.75rem;
+    }
+
+    .upload-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.35rem;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+    }
+
+    .upload-card h2 {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    label.fh-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted-dim);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.7rem 0.95rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(11, 2, 19, 0.6);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: rgba(168, 85, 247, 0.55);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+    }
+
+    .dropzone {
+      border: 2px dashed rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 0.85rem;
+      background: rgba(11, 2, 19, 0.35);
+    }
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: rgba(236, 72, 153, 0.65);
+      background: rgba(236, 72, 153, 0.08);
+    }
+
+    .dropzone strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .dropzone span {
+      font-size: 0.8rem;
+      color: var(--muted-dim);
+    }
+
+    .file-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.65rem;
+      background: rgba(11, 2, 19, 0.55);
+      border-radius: 10px;
+      font-size: 0.82rem;
+      margin-bottom: 0.65rem;
+      border: 1px solid var(--card-border);
+    }
+
+    .file-pill button {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--muted-dim);
+      cursor: pointer;
+      padding: 0.2rem;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .file-pill button:hover {
+      color: #f87171;
+    }
+
+    .price-range-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .price-range-row input[type="range"] {
+      flex: 1;
+      min-width: 0;
+      height: 6px;
+      border-radius: 999px;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.12);
+      accent-color: #c084fc;
+    }
+
+    .price-range-row input[type="range"]::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+
+    .price-range-row input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f472b6, #a855f7);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+
+    .price-range-value {
+      flex-shrink: 0;
+      min-width: 3.25rem;
+      text-align: right;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--star);
+    }
+
+    .price-end-label {
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted-dim);
+    }
+
+    .btn-publish {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: var(--radius-btn);
+      border: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0b0213;
+      cursor: pointer;
+      background: linear-gradient(90deg, #34d399, #2dd4bf);
+      box-shadow: 0 8px 28px rgba(45, 212, 191, 0.25);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-publish:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .btn-publish:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .quota-line {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0 0 0.75rem;
+      line-height: 1.4;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted-dim);
+      margin-top: 0.85rem;
+      line-height: 1.45;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem 1rem 2rem;
+      color: var(--muted-dim);
+      font-size: 0.8rem;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 0, 12, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      transform: translateY(10px);
+      transition: transform 0.25s;
+    }
+
+    .modal-backdrop.open .modal {
+      transform: translateY(0);
+    }
+
+    .modal h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.15rem;
+    }
+
+    .modal p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin: 0 0 1.1rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.65rem;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      padding: 0.65rem;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .modal-cancel {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .modal-pay {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b);
+      color: #1c1917;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: var(--text);
+      color: var(--bg-deep);
+      padding: 0.7rem 1.1rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      z-index: 200;
+      opacity: 0;
+      transition: transform 0.35s, opacity 0.35s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="#" class="brand" aria-label="FileHub home">
+      <span class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+      </span>
+      <span class="brand-name">FileHub</span>
+    </a>
+    <div class="header-actions">
+      <span class="user-email" id="user-email"></span>
+      <button type="button" class="btn-logout" id="btn-logout">Sign out</button>
+    </div>
+    <a href="#upload" class="btn-upload">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </svg>
+      Upload file
+    </a>
+  </header>
+
+  <main class="shell">
+    <section class="section-featured" aria-labelledby="featured-heading">
+      <h2 id="featured-heading" class="section-title">
+        <span class="star" aria-hidden="true">★</span>
+        Featured file
+      </h2>
+      <div id="featured-root"></div>
+    </section>
+
+    <section class="section-community" id="marketplace" aria-labelledby="community-heading">
+      <h2 id="community-heading" class="section-title">
+        <svg class="icon-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        Community files
+      </h2>
+      <div id="listing-container" class="community-grid"></div>
+    </section>
+
+    <section class="section-upload" id="upload" aria-labelledby="upload-heading">
+      <div class="upload-card">
+        <h2 id="upload-heading">List files</h2>
+        <label class="fh-label" for="listing-title">Title</label>
+        <input type="text" id="listing-title" placeholder="e.g. Icon pack, presets, template…" maxlength="120" />
+
+        <label class="fh-label">Files</label>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload files">
+          <strong>Drop files here or click to browse</strong>
+          <span>Multiple files allowed — each file max 5 GB, combined max 5 GB per listing. Your account total is also capped at 5 GB.</span>
+        </div>
+        <input type="file" id="file-input" hidden multiple />
+        <div id="file-preview"></div>
+        <p class="quota-line" id="quota-line" aria-live="polite"></p>
+
+        <label class="fh-label" for="price-usd">Price (USD)</label>
+        <div class="price-range-row">
+          <span class="price-end-label">$0</span>
+          <input type="range" id="price-usd" min="0" max="5" step="1" value="0" aria-valuemin="0" aria-valuemax="5" aria-describedby="price-usd-out" />
+          <span class="price-end-label">$5</span>
+          <span class="price-range-value" id="price-usd-out" aria-live="polite">Free</span>
+        </div>
+
+        <button type="button" class="btn-publish" id="publish-btn" disabled>Publish</button>
+        <p class="hint">Run <code style="font-size:0.85em">npm install</code> and <code style="font-size:0.85em">npm start</code>. Set <code style="font-size:0.85em">PAYPAL_CLIENT_ID</code> / <code style="font-size:0.85em">PAYPAL_CLIENT_SECRET</code> for paid listings. Set <code style="font-size:0.85em">ADMIN_EMAIL</code> to your Gmail so only you can remove other people’s listings.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>FileHub — listings on the server. Paid checkout uses PayPal. Free ($0) listings download without payment.</footer>
+
+  <div class="modal-backdrop" id="checkout-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="checkout-title" aria-modal="true">
+      <h3 id="checkout-title">Pay with PayPal</h3>
+      <p id="checkout-body">You will be redirected to PayPal to complete payment.</p>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" id="checkout-cancel">Cancel</button>
+        <button type="button" class="modal-pay" id="checkout-confirm">Pay</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <!-- Shared SVG: file stack illustration for thumbnails -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="icon-file-hero" viewBox="0 0 120 120">
+      <defs>
+        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#c084fc" />
+          <stop offset="100%" style="stop-color:#6366f1" />
+        </linearGradient>
+      </defs>
+      <rect x="18" y="22" width="84" height="76" rx="12" fill="url(#g1)" opacity="0.35" />
+      <rect x="24" y="16" width="72" height="80" rx="10" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.35)" stroke-width="2" />
+      <path d="M40 38h40M40 52h28M40 66h34" stroke="rgba(255,255,255,0.7)" stroke-width="4" stroke-linecap="round" />
+    </symbol>
+  </svg>
+
+  <script src="app.js"></script>
+</body>
+</html>
